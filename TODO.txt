@@ -1,0 +1,18 @@
+TODO LIST
+- create public repository
+- automatic check for updates
+- test on linux ubuntu
+- test on windows
+- add a save button to the wScript tab
+- add mpi functionality
+
+DONE
+- test Launcher.node_set_has_changed
+- add option to dos2unix all files transferred (and the other way around)
+- add menu with some tools to 
+	. edit clusters
+	. login nodes
+- cleanup pbs.py
++ nodesets require extra pbs options.
++ improve the log
++ store last window size in configuration and use it when the Launcher is reopened.
