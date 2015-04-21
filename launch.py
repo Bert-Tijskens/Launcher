@@ -27,7 +27,7 @@ FJR_NOT_FINISHED =2
 FJR_NO_CONNECTION=3
 FJR_ERROR        =4
 
-__VERSION__ = (0,1)
+__VERSION__ = (0,5)
 
 #####################################
 ### some wx convenience functions ###
@@ -303,7 +303,7 @@ class Launcher(wx.Frame):
             else:                           # a data member
                 print()
                 print_line(title=k)
-                print(Indent(v))
+                print(Indent(v,indent=4))
         print_line()
         print_item_footer()
             
@@ -1701,7 +1701,7 @@ class RedirectStdStreams(object):
 
 def run_launcher():
     app = wx.App()
-    frame = Launcher(None,"launch-4")
+    frame = Launcher(None,"Launcher v{}.{}".format(*__VERSION__))
     log = frame.log
     app.SetTopWindow(frame)
     app.MainLoop()
