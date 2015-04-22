@@ -171,6 +171,7 @@ class Launcher(wx.Frame):
     ID_MENU_SSH_PREFERENCES = wx.NewId()
     ID_MENU_SSH_CONNECT     = wx.NewId()
     ID_MENU_LOGIN_NODE      = wx.NewId()
+    ID_MENU_CLUSTER_MODULE_ADDED = wx.NewId()
     
     def __init__(self, parent, title):
         """
@@ -798,9 +799,10 @@ class Launcher(wx.Frame):
         # Tools Menu
         menu_ssh = wx.Menu()
         menu_bar.Append(menu_ssh, "&SSH")
-        menu_ssh.Append(Launcher.ID_MENU_SSH_PREFERENCES, "Preferences\tCtrl+P")
-        menu_ssh.Append(Launcher.ID_MENU_SSH_CONNECT    , "Retry to connect\tCtrl+R")
-        menu_ssh.Append(Launcher.ID_MENU_LOGIN_NODE     , "Select login node\tCtrl+L")
+        menu_ssh.Append(Launcher.ID_MENU_SSH_PREFERENCES     ,"Preferences\tCtrl+P")
+        menu_ssh.Append(Launcher.ID_MENU_SSH_CONNECT         ,"Retry to connect\tCtrl+R")
+        menu_ssh.Append(Launcher.ID_MENU_LOGIN_NODE          ,"Select login node\tCtrl+L")
+        menu_ssh.Append(Launcher.ID_MENU_CLUSTER_MODULE_ADDED,"Check for new cluster modules\tCtrl+M")
 
     def on_EVT_MENU(self, event):
         """Handle menu clicks"""
@@ -812,6 +814,13 @@ class Launcher(wx.Frame):
             # the object is not stored because it is not used 
         if event_id==Launcher.ID_MENU_LOGIN_NODE:
             self.select_login_node()
+        if event_id==Launcher.ID_MENU_CLUSTER_MODULE_ADDED:
+            self.update_cluster_list()
+            msg = "These cluster modules are installed in folder\n"+clusters.clusters_folder+":\n"
+            for m in self.wCluster.GetItems():
+                msg += "\n  - "+m+".py"
+            wx.MessageBox(msg, 'Cluster modules',wx.OK | wx.ICON_INFORMATION)
+
         else:
             raise Exception("Unknown menu event id:"+str(event_id))
              
@@ -1024,9 +1033,7 @@ class Launcher(wx.Frame):
         return self.wCluster.GetValue()
     
     def update_cluster_list(self):
-        '''
-        '''
-        clusters = reload(clusters)
+        reload(clusters)
         self.wCluster.SetItems(clusters.cluster_list)        
         try:
             i = clusters.cluster_list.index(self.cluster)
